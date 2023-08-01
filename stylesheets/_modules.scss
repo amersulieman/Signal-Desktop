@@ -3592,9 +3592,15 @@ button.module-image__border-overlay:focus {
         }
       }
 
+      &__date {
+        margin-inline-start: 8px;
+        font-size: 11px;
+      }
+
       &__emoji {
         width: 18px;
         flex-shrink: 1;
+        margin-inline-start: 8px;
       }
     }
   }

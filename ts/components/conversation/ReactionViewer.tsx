@@ -15,6 +15,9 @@ import type { EmojiData } from '../emoji/lib';
 import { emojiToData } from '../emoji/lib';
 import { useEscapeHandling } from '../../hooks/useEscapeHandling';
 import type { ThemeType } from '../../types/Util';
+import { formatTime } from '../../util/timestamp';
+import { Time } from '../Time';
+import { useNowThatUpdatesEveryMinute } from '../../hooks/useNowThatUpdatesEveryMinute';
 
 export type Reaction = {
   emoji: string;
@@ -170,6 +173,8 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
     const selectedReactions =
       groupedAndSortedReactions[selectedReactionCategory] || [];
 
+    const now = useNowThatUpdatesEveryMinute();
+
     return (
       <div {...rest} ref={ref} className="module-reaction-viewer">
         <header className="module-reaction-viewer__header">
@@ -218,7 +223,7 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
           })}
         </header>
         <main className="module-reaction-viewer__body">
-          {selectedReactions.map(({ from, emoji }) => (
+          {selectedReactions.map(({ from, emoji, timestamp }) => (
             <div
               key={`${from.id}-${emoji}`}
               className="module-reaction-viewer__body__row"
@@ -250,6 +255,12 @@ export const ReactionViewer = React.forwardRef<HTMLDivElement, Props>(
                   />
                 )}
               </div>
+              <Time
+                className="module-reaction-viewer__body__row__date"
+                timestamp={timestamp}
+              >
+                {formatTime(i18n, timestamp, now)}
+              </Time>
               <div className="module-reaction-viewer__body__row__emoji">
                 <Emoji size={18} emoji={emoji} />
               </div>
